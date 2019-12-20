@@ -1,0 +1,15 @@
+.board {
+  position: absolute;
+  height: 700px;
+  width: 700px;
+  border: solid red 1px;
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(20, 1fr);
+
+}
+.cell {
+  height: 100%;
+  width: 100%;
+  border: solid blue 1px;
+}

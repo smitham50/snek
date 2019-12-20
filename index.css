@@ -13,3 +13,10 @@
   width: 100%;
   border: solid blue 1px;
 }
+
+.active {
+  height: 100%;
+  width: 100%;
+  border: solid blue 1px;
+  background-color: red;
+}

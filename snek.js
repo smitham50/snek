@@ -1,6 +1,7 @@
 //globals
 let direction = 'right'
 let start = document.querySelector('#start-button')
+let food;
 
 //selector for grid cells
 let cells = document.querySelectorAll('.cell');
@@ -56,13 +57,13 @@ document.addEventListener('keydown', (event) => {
 
 function moveSnake() {
   // console.log('direction: ', direction)
-  let tailCoords = snake.shift();
+  let tailCoords = snake[0]
   let tail = document.querySelector(`[data-x='${tailCoords[0]}'][data-y='${tailCoords[1]}']`)
   let prevHead = head;
   if(direction === 'right') {
     prevHead = head
     head = document.querySelector(`[data-x='${parseInt(prevHead.dataset.x) + 1}'][data-y='${prevHead.dataset.y}']`)
-  
+
     head.className = 'active';
     tail.className = 'cell';
   } else if(direction === 'left') {
@@ -85,20 +86,45 @@ function moveSnake() {
       tail.className = 'cell';
   }
 
+  if(head.dataset.x === food.dataset.x && head.dataset.y === food.dataset.y) {
+    eat();
+  } else {
+    snake.shift();
+  }
   snake.push([head.dataset.x, head.dataset.y]);
+
 
 }
 
-
 //start button event listener
 start.addEventListener('click', () => {
-  startSnake();
-  setInterval(moveSnake, 1000);
+  dropPellet();
+  setInterval(moveSnake, 400);
 })
+
+
 
 //food pellet randomizer
 function dropPellet() {
 
+  let x = Math.floor(Math.random() * 20)
+  let y = Math.floor(Math.random() * 20)
+  food = document.querySelector(`[data-x='${x}'][data-y='${y}']`)
+
+  snake.includes([x.toString(), y.toString()]) ? dropPellet : food.classList.add('active')
+
 }
 
+function eat() {
 
+  console.log('MUNCH')
+  // let tailCoords = [snake[0][0], snake[0][1]]
+  // snake.unshift(tailCoords)
+  // console.log(tailCoords)
+  // let newTail = document.querySelector(`[data-x='${parseInt(tailCoords[0] - 1)}'][data-y='${tailCoords[1]}']`)
+  // // newTail.className = 'active'
+  dropPellet();
+
+}
+
+startSnake();

@@ -21,3 +21,10 @@
 
   background-color: red;
 }
+
+#start-button {
+  width: 80px;
+  border: solid 1px;
+  border-radius: 40px;
+  text-align: center;
+}

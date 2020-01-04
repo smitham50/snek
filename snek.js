@@ -1,5 +1,6 @@
 //globals
 let direction = 'right'
+let start = document.querySelector('#start-button')
 
 //selector for grid cells
 let cells = document.querySelectorAll('.cell');
@@ -19,9 +20,21 @@ cells.forEach(cell => {
   cell.dataset.x = cellCoords[1];
 })
 
+//snake array
+let snake = [];
+
+function startSnake() {
+  snake.unshift([head.dataset.x, head.dataset.y]);
+  for (let i = 1; i < 4; i++) {
+    let cell = document.querySelector(`[data-x='${parseInt(head.dataset.x) - i}'][data-y='${head.dataset.y}']`);
+    snake.unshift([cell.dataset.x, cell.dataset.y]);
+    cell.className = 'active';
+  }
+}
+
 //movement function
-let active = document.querySelector('#start');
-active.className = 'active';
+let head = document.querySelector('#start');
+head.className = 'active';
 
 //direction handling
 document.addEventListener('keydown', (event) => {
@@ -42,34 +55,50 @@ document.addEventListener('keydown', (event) => {
 })
 
 function moveSnake() {
-  console.log('direction: ', direction)
-  let prev = active;
+  // console.log('direction: ', direction)
+  let tailCoords = snake.shift();
+  let tail = document.querySelector(`[data-x='${tailCoords[0]}'][data-y='${tailCoords[1]}']`)
+  let prevHead = head;
   if(direction === 'right') {
-    prev = active
-    active = document.querySelector(`[data-x='${parseInt(prev.dataset.x) + 1}'][data-y='${prev.dataset.y}']`)
-
-    active.className = 'active';
-    prev.className = 'cell';
+    prevHead = head
+    head = document.querySelector(`[data-x='${parseInt(prevHead.dataset.x) + 1}'][data-y='${prevHead.dataset.y}']`)
+  
+    head.className = 'active';
+    tail.className = 'cell';
   } else if(direction === 'left') {
-      prev = active;
+      prevHead = head;
 
-      active = document.querySelector(`[data-x='${parseInt(prev.dataset.x) - 1}'][data-y='${prev.dataset.y}']`)
-      active.className = 'active';
-      prev.className = 'cell';
+      head = document.querySelector(`[data-x='${parseInt(prevHead.dataset.x) - 1}'][data-y='${prevHead.dataset.y}']`)
+      head.className = 'active';
+      tail.className = 'cell';
   } else if(direction === 'up') {
-      prev = active;
+      prevHead = head;
 
-      active = document.querySelector(`[data-x='${prev.dataset.x}'][data-y='${parseInt(prev.dataset.y) - 1}']`)
-      active.className = 'active';
-      prev.className = 'cell';
+      head = document.querySelector(`[data-x='${prevHead.dataset.x}'][data-y='${parseInt(prevHead.dataset.y) - 1}']`)
+      head.className = 'active';
+      tail.className = 'cell';
   } else if(direction === 'down') {
-      prev = active;
+      prevHead = head;
 
-      active = document.querySelector(`[data-x='${prev.dataset.x}'][data-y='${parseInt(prev.dataset.y) + 1}']`)
-      active.className = 'active';
-      prev.className = 'cell';
+      head = document.querySelector(`[data-x='${prevHead.dataset.x}'][data-y='${parseInt(prevHead.dataset.y) + 1}']`)
+      head.className = 'active';
+      tail.className = 'cell';
   }
+
+  snake.push([head.dataset.x, head.dataset.y]);
 
 }
 
-// setInterval(moveSnake(), 1000)
+
+//start button event listener
+start.addEventListener('click', () => {
+  startSnake();
+  setInterval(moveSnake, 1000);
+})
+
+//food pellet randomizer
+function dropPellet() {
+
+}
+
+

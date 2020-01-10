@@ -1,8 +1,7 @@
 //globals
-let direction = 'right';
+let direction;
 let start = document.querySelector('#start-button');
 let food;
-let speed = 600;
 let interval;
 let isPlaying = false;
 
@@ -45,15 +44,19 @@ head.className = 'active';
 document.addEventListener('keydown', (event) => {
   if( event.which === 37) {
     // console.log('moving left!')
+    if (direction === 'right') return;
     direction = 'left';
   } else if ( event.which === 39 ) {
     // console.log('moving right!')
+    if (direction === 'left') return;
     direction = 'right';
   } else if ( event.which === 38 ) {
     // console.log( 'moving up!')
+    if (direction === 'down') return;
     direction = 'up';
   } else if ( event.which === 40 ) {
     // console.log('moving down!')
+    if (direction === 'up') return;
     direction = 'down';
   }
 })
@@ -103,6 +106,8 @@ function moveSnake() {
 //start button event listener
 start.addEventListener('click', () => {
   let snakeCells = document.querySelectorAll('.active');
+  clearInterval(interval);
+  direction = 'right'
   snakeCells.forEach(cell => cell.className = '.cell');
   head = document.querySelector('#start');
   head.className = 'active';

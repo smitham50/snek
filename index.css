@@ -1,7 +1,7 @@
 .board {
   position: absolute;
-  height: 700px;
-  width: 700px;
+  height: 650px;
+  width: 650px;
   border: solid red 1px;
   display: grid;
   grid-template-columns: repeat(20, 1fr);
@@ -11,13 +11,12 @@
 .cell {
   height: 100%;
   width: 100%;
-  border: solid blue 1px;
+  
 }
 
 .active {
   height: 100%;
   width: 100%;
-  border: solid blue 1px;
 
   background-color: red;
 }

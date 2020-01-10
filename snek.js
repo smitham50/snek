@@ -3,6 +3,8 @@ let direction = 'right';
 let start = document.querySelector('#start-button');
 let food;
 let speed = 600;
+let interval;
+let isPlaying = false;
 
 //selector for grid cells
 let cells = document.querySelectorAll('.cell');
@@ -58,23 +60,33 @@ document.addEventListener('keydown', (event) => {
 
 function moveSnake() {
   // console.log('direction: ', direction)
+  isPlaying = true;
   let tailCoords = snake[0]
   let tail = document.querySelector(`[data-x='${tailCoords[0]}'][data-y='${tailCoords[1]}']`)
   let prevHead = head;
+
   if(direction === 'right') {
     head = document.querySelector(`[data-x='${parseInt(prevHead.dataset.x) + 1}'][data-y='${prevHead.dataset.y}']`)
+    if (!head) return endGame();
+    if (snake.find(coord => coord[0] === head.dataset.x && coord[1] === head.dataset.y) && isPlaying) return endGame();
     head.className = 'active';
     tail.className = 'cell';
   } else if(direction === 'left') {
       head = document.querySelector(`[data-x='${parseInt(prevHead.dataset.x) - 1}'][data-y='${prevHead.dataset.y}']`)
+      if (!head) return endGame();
+      if (snake.find(coord => coord[0] === head.dataset.x && coord[1] === head.dataset.y) && isPlaying) return endGame();
       head.className = 'active';
       tail.className = 'cell';
   } else if(direction === 'up') {
       head = document.querySelector(`[data-x='${prevHead.dataset.x}'][data-y='${parseInt(prevHead.dataset.y) - 1}']`)
+      if (!head) return endGame();
+      if (snake.find(coord => coord[0] === head.dataset.x && coord[1] === head.dataset.y) && isPlaying) return endGame();
       head.className = 'active';
       tail.className = 'cell';
   } else if(direction === 'down') {
       head = document.querySelector(`[data-x='${prevHead.dataset.x}'][data-y='${parseInt(prevHead.dataset.y) + 1}']`)
+      if (!head) return endGame();
+      if (snake.find(coord => coord[0] === head.dataset.x && coord[1] === head.dataset.y) && isPlaying) return endGame();
       head.className = 'active';
       tail.className = 'cell';
   }
@@ -90,7 +102,13 @@ function moveSnake() {
 
 //start button event listener
 start.addEventListener('click', () => {
-  setInterval(moveSnake, 150);
+  let snakeCells = document.querySelectorAll('.active');
+  snakeCells.forEach(cell => cell.className = '.cell');
+  head = document.querySelector('#start');
+  head.className = 'active';
+  snake = [];
+  startSnake();
+  interval = setInterval(moveSnake, 150);
   dropPellet();
 })
 
@@ -111,8 +129,13 @@ function dropPellet() {
 
 function eat() {
   dropPellet();
-  speed -= 30;
-
 }
 
 startSnake();
+
+//game end function
+function endGame() {
+  clearInterval(interval)
+  isPlaying = false;
+  alert("Game Over")
+}

@@ -87,6 +87,7 @@ function moveSnake() {
   }
 
   if(head.dataset.x === food.dataset.x && head.dataset.y === food.dataset.y) {
+    //all we're doing here is not shifting
     eat();
   } else {
     snake.shift();
@@ -99,7 +100,7 @@ function moveSnake() {
 //start button event listener
 start.addEventListener('click', () => {
   dropPellet();
-  setInterval(moveSnake, 400);
+  setInterval(moveSnake, 150);
 })
 
 

@@ -1,5 +1,7 @@
 .board {
   position: absolute;
+  left: 25%;
+  background: #4f5661;
   height: 650px;
   width: 650px;
   border: solid red 1px;
@@ -11,7 +13,7 @@
 .cell {
   height: 100%;
   width: 100%;
-  
+
 }
 
 .active {
